@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 
-function Pet({pet}) {
+function Pet({ pet }) {
+  const [showAdopted, setShowAdopted] = useState(false);
+  const [showAvailable, setShowAvailable] = useState(true);
+
+  function handleAdopt() {
+    setShowAdopted(true);
+    setShowAvailable(false);
+  }
+
   return (
     <div className="card" data-testid="pet">
       <div className="content">
-        <span className="header">
-          {pet.name}
-        </span>
+        <span className="header">{pet.name}</span>
+        <h3>{pet.isAdopted ? "Adopted" : "Available"}</h3>
+
         <p>{pet.gender}</p>
         <div className="meta">
           <span className="date">{pet.type}</span>
@@ -17,8 +25,14 @@ function Pet({pet}) {
         </div>
       </div>
       <div className="extra content">
-        <button className="ui disabled button">Already adopted</button>
-        <button className="ui primary button">Adopt pet</button>
+        {showAdopted ? (
+          <button className="ui disabled button">Already adopted</button>
+        ) : null}
+        {showAvailable ? (
+          <button className="ui primary button" onClick={handleAdopt}>
+            Adopt pet
+          </button>
+        ) : null}
       </div>
     </div>
   );
